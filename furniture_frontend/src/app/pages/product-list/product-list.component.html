@@ -1,0 +1,53 @@
+<div class="page" [style.background]="theme.background">
+  <header class="header">
+    <h1 class="title">Furniture Catalog</h1>
+    <div class="accent"></div>
+  </header>
+
+  <section class="content">
+    <aside class="filters card">
+      <h2>Filters</h2>
+      <div class="field">
+        <label>Search</label>
+        <input [(ngModel)]="qVal" type="text" placeholder="Search products..." />
+      </div>
+      <div class="field">
+        <label>Category</label>
+        <input [(ngModel)]="categoryVal" type="text" placeholder="e.g., Sofa, Chair" />
+      </div>
+      <div class="field grid2">
+        <div>
+          <label>Min Price</label>
+          <input [(ngModel)]="minPriceVal" type="number" min="0" />
+        </div>
+        <div>
+          <label>Max Price</label>
+          <input [(ngModel)]="maxPriceVal" type="number" min="0" />
+        </div>
+      </div>
+      <div class="actions">
+        <button class="btn primary" (click)="applyFilters()">Apply</button>
+        <button class="btn ghost" (click)="clearFilters()">Reset</button>
+      </div>
+    </aside>
+
+    <main class="grid">
+      <div class="product card hoverable" *ngFor="let p of products()"
+           (click)="openDetail(p)">
+        <div class="image" [style.backgroundImage]="'url(' + (p.image_url || '') + ')'"
+             [class.placeholder]="!p.image_url"></div>
+        <div class="info">
+          <h3>{{ p.name }}</h3>
+          <p class="category">{{ p.category }}</p>
+          <p class="price">${{ p.price | number: '1.2-2' }}</p>
+        </div>
+      </div>
+    </main>
+  </section>
+
+  <footer class="pager">
+    <button class="btn ghost" [disabled]="page() === 1" (click)="prevPage()">Prev</button>
+    <span>Page {{ page() }} / {{ totalPages() }}</span>
+    <button class="btn primary" [disabled]="page() === totalPages()" (click)="nextPage()">Next</button>
+  </footer>
+</div>

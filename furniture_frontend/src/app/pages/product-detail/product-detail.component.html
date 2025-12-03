@@ -1,0 +1,20 @@
+<div class="page">
+  <div class="container">
+    <a class="back" routerLink="/products">&larr; Back to products</a>
+
+    <div *ngIf="loading()" class="card">Loading...</div>
+    <div *ngIf="notFound()" class="card error">Product not found.</div>
+
+    <div *ngIf="!loading() && product()" class="card detail">
+      <div class="image" [style.backgroundImage]="'url(' + (product()!.image_url || '') + ')'"
+           [class.placeholder]="!product()!.image_url"></div>
+      <div class="content">
+        <h1>{{ product()!.name }}</h1>
+        <p class="category">{{ product()!.category }}</p>
+        <p class="price">${{ product()!.price | number: '1.2-2' }}</p>
+        <p class="desc">{{ product()!.description }}</p>
+        <button class="btn primary">Add to Cart</button>
+      </div>
+    </div>
+  </div>
+</div>
