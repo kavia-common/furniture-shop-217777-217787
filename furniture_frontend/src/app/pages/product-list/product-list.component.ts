@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { ProductService } from '../../services/product.service';
+import { WishlistService } from '../../services/wishlist.service';
 import { Product, ProductListResponse } from '../../models/product.model';
 import { getTheme } from '../../config/app-config';
 
@@ -15,6 +16,7 @@ import { getTheme } from '../../config/app-config';
 })
 export class ProductListComponent implements OnInit {
   private productService = inject(ProductService);
+  private wishlistService = inject(WishlistService);
   private router = inject(Router);
 
   theme = getTheme();
@@ -88,5 +90,14 @@ export class ProductListComponent implements OnInit {
 
   openDetail(p: Product) {
     this.router.navigate(['/products', p.id]);
+  }
+
+  addToWishlist(productId: number) {
+    this.wishlistService.add(productId).subscribe({
+      next: () => {
+        // no-op; could show toast
+      },
+      error: (e) => console.error('Failed to add to wishlist', e)
+    });
   }
 }

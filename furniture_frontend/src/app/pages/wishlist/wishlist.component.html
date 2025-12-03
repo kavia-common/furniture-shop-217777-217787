@@ -1,0 +1,25 @@
+<div class="page">
+  <div class="container">
+    <h1>My Wishlist</h1>
+    <a class="back" routerLink="/products">&larr; Continue shopping</a>
+
+    <div *ngIf="loading()" class="card">Loading...</div>
+    <div *ngIf="!loading() && items().length === 0" class="card">Your wishlist is empty.</div>
+
+    <div class="grid" *ngIf="!loading() && items().length > 0">
+      <div class="product card" *ngFor="let p of items()">
+        <div class="image" [style.backgroundImage]="'url(' + (p.image_url || '') + ')'"
+             [class.placeholder]="!p.image_url"></div>
+        <div class="info">
+          <h3>{{ p.name }}</h3>
+          <p class="category">{{ p.category }}</p>
+          <p class="price">${{ p.price | number:'1.2-2' }}</p>
+          <div class="row">
+            <a [routerLink]="['/products', p.id]" class="btn ghost">View</a>
+            <button class="btn danger" (click)="remove(p)">Remove</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

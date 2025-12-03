@@ -40,6 +40,9 @@
           <h3>{{ p.name }}</h3>
           <p class="category">{{ p.category }}</p>
           <p class="price">${{ p.price | number: '1.2-2' }}</p>
+          <div class="actions">
+            <button class="btn ghost" (click)="$event.stopPropagation(); addToWishlist(p.id)">♡ Wishlist</button>
+          </div>
         </div>
       </div>
     </main>

@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { Product } from '../../models/product.model';
 import { ProductService } from '../../services/product.service';
+import { WishlistService } from '../../services/wishlist.service';
 import { getTheme } from '../../config/app-config';
 
 @Component({
@@ -15,6 +16,7 @@ import { getTheme } from '../../config/app-config';
 export class ProductDetailComponent implements OnInit {
   private route = inject(ActivatedRoute);
   private productService = inject(ProductService);
+  private wishlistService = inject(WishlistService);
 
   theme = getTheme();
   product = signal<Product | null>(null);
@@ -37,6 +39,15 @@ export class ProductDetailComponent implements OnInit {
         this.notFound.set(true);
         this.loading.set(false);
       }
+    });
+  }
+
+  addToWishlist() {
+    const p = this.product();
+    if (!p) return;
+    this.wishlistService.add(p.id).subscribe({
+      next: () => {},
+      error: (e) => console.error('Failed to add to wishlist', e)
     });
   }
 }
