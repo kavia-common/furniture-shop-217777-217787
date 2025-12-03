@@ -4,8 +4,10 @@ import { RouterModule, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { ProductService } from '../../services/product.service';
 import { WishlistService } from '../../services/wishlist.service';
+import { CartService } from '../../services/cart.service';
 import { Product, ProductListResponse } from '../../models/product.model';
 import { getTheme } from '../../config/app-config';
+import { AppComponent } from '../../app.component';
 
 @Component({
   selector: 'app-product-list',
@@ -17,6 +19,7 @@ import { getTheme } from '../../config/app-config';
 export class ProductListComponent implements OnInit {
   private productService = inject(ProductService);
   private wishlistService = inject(WishlistService);
+  private cartService = inject(CartService);
   private router = inject(Router);
 
   theme = getTheme();
@@ -90,6 +93,21 @@ export class ProductListComponent implements OnInit {
 
   openDetail(p: Product) {
     this.router.navigate(['/products', p.id]);
+  }
+
+  addToCart(p: Product) {
+    this.cartService.add(p.id, 1).subscribe({
+      next: () => {
+        // Optionally show a toast or feedback
+        // Update cart badge in header (AppComponent)
+        const g = typeof globalThis !== "undefined" ? (globalThis as any) : undefined;
+        const rootApp = g?.['rootAppComponent'] as AppComponent | undefined;
+        if (rootApp && typeof rootApp.getCartCount === 'function') {
+          rootApp.getCartCount();
+        }
+      },
+      error: (e) => console.error('Add to cart failed', e)
+    });
   }
 
   addToWishlist(productId: number) {

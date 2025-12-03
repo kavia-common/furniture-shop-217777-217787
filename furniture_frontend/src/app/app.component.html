@@ -1,8 +1,12 @@
 <header class="container">
   <h1>{{ title }}</h1>
 </header>
-<nav class="nav">
+<nav class="nav" style="align-items:center;">
   <a routerLink="/products">Products</a>
   <a routerLink="/wishlist">Wishlist</a>
+  <a routerLink="/cart" style="position:relative;">
+    <span style="margin-right:0.4em;">Cart</span>
+    <span style="background:#2563EB;color:#fff; border-radius:50%; font-size:0.96em; padding:0.07em 0.49em; position:absolute; right:-1.1em; top:-0.55em;" *ngIf="cartCount()>0">{{ cartCount() }}</span>
+  </a>
 </nav>
 <router-outlet />

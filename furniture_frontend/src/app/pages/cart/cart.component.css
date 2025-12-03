@@ -1,0 +1,105 @@
+:root {
+  --primary: #2563EB;
+  --secondary: #F59E0B;
+  --error: #EF4444;
+  --bg: #f9fafb;
+  --surface: #ffffff;
+  --text: #111827;
+}
+.page {
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  padding: 1rem;
+}
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+.card {
+  background: var(--surface);
+  border: 1px solid rgba(0,0,0,0.06);
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.04);
+}
+h1 {
+  font-size: 1.6rem;
+  margin-bottom: 0.5rem;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+th, td {
+  padding: 0.7rem;
+  text-align: left;
+  border-bottom: 1px solid #eee;
+}
+th {
+  color: var(--primary);
+  font-weight: 600;
+}
+td img {
+  width: 60px;
+  height: 45px;
+  object-fit: cover;
+  border-radius: 10px;
+  background: #eef2ff;
+}
+input.qty {
+  width: 55px;
+  padding: 0.33rem 0.4rem;
+  border-radius: 8px;
+  border: 1px solid #cbd5e1;
+  text-align: right;
+}
+
+.btn {
+  border: 1px solid transparent;
+  padding: 0.40rem 0.9rem;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background .16s, box-shadow .16s;
+}
+.btn.primary {
+  background: var(--primary);
+  color: #fff;
+  box-shadow: 0 6px 18px rgba(37,99,235,0.1);
+}
+.btn.danger {
+  background: var(--error);
+  color: #fff;
+}
+.btn.ghost {
+  background: #fff;
+  color: var(--primary);
+  border-color: var(--primary);
+}
+tfoot td {
+  font-weight: 700;
+  color: var(--primary);
+}
+.row-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+.empty-state {
+  text-align: center;
+  color: #888;
+  font-size: 1.1rem;
+  padding: 2rem 0;
+}
+@media (max-width: 600px) {
+  table, thead, tbody, th, td, tr {
+    display: block;
+  }
+  th, td {
+    padding: 0.5rem;
+  }
+  td img {
+    width: 90%;
+  }
+}

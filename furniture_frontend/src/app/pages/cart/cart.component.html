@@ -1,0 +1,54 @@
+<div class="page">
+  <div class="container">
+    <h1>Shopping Cart</h1>
+    <div class="card">
+      <button class="btn ghost" (click)="refresh()" style="float:right;">Refresh</button>
+      <button class="btn danger" (click)="clear()" *ngIf="items().length">Clear Cart</button>
+      <div *ngIf="loading()" class="empty-state">Loading...</div>
+      <div *ngIf="error()" class="empty-state" style="color: var(--error);">{{ error() }}</div>
+      <div *ngIf="!loading() && !error() && items().length === 0" class="empty-state">Your cart is empty.</div>
+      <table *ngIf="!loading() && !error() && items().length > 0">
+        <thead>
+          <tr>
+            <th>Product</th>
+            <th style="width: 60px;"></th>
+            <th>Unit Price</th>
+            <th>Quantity</th>
+            <th>Subtotal</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of items()">
+            <td>
+              <div style="font-weight: 600;">{{ item.name }}</div>
+            </td>
+            <td>
+              <img [src]="item.image_url" *ngIf="item.image_url; else imgph" alt="{{ item.name }}">
+              <ng-template #imgph>
+                <div style="width: 60px; height: 45px; border-radius: 10px; background: #e0e7ef;" ></div>
+              </ng-template>
+            </td>
+            <td>${{ item.price | number:'1.2-2' }}</td>
+            <td>
+              <input class="qty" type="number" min="1" [value]="item.quantity"
+                     (change)="updateQty(item, $event)" />
+            </td>
+            <td>${{ (item.price * item.quantity) | number:'1.2-2' }}</td>
+            <td class="row-actions">
+              <button class="btn danger" (click)="remove(item)">Remove</button>
+            </td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td colspan="4"></td>
+            <td>Total</td>
+            <td>${{ total() | number:'1.2-2' }}</td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+    <a class="btn primary" routerLink="/products">Continue Shopping</a>
+  </div>
+</div>

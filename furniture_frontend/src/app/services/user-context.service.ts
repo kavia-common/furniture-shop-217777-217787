@@ -8,13 +8,22 @@ export class UserContextService {
   /** Provides a stable pseudo-user id stored in localStorage for demo purposes. */
   getUserId(): string {
     try {
-      const existing = globalThis?.localStorage?.getItem(KEY);
+      // SSR-safe: Only use localStorage/crypto in browser
+      const g = typeof globalThis !== 'undefined' ? (globalThis as any) : undefined;
+      const localStorage = g?.localStorage ?? undefined;
+      const crypto = g?.crypto ?? undefined;
+
+      const existing = localStorage?.getItem(KEY);
       if (existing) return existing;
-      const generated = crypto.randomUUID?.() ?? Math.random().toString(36).slice(2);
-      globalThis?.localStorage?.setItem(KEY, generated);
+
+      const generated = typeof crypto?.randomUUID === 'function'
+        ? crypto.randomUUID()
+        : Math.random().toString(36).slice(2);
+
+      if (localStorage) localStorage.setItem(KEY, generated);
       return generated;
     } catch {
-      // Fallback if localStorage not available (SSR); generate ephemeral id
+      // Fallback if localStorage/crypto not available (SSR/Node); generate ephemeral id
       return Math.random().toString(36).slice(2);
     }
   }

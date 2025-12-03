@@ -14,7 +14,7 @@
         <p class="price">${{ product()!.price | number: '1.2-2' }}</p>
         <p class="desc">{{ product()!.description }}</p>
         <div class="row">
-          <button class="btn primary">Add to Cart</button>
+          <button class="btn primary" (click)="addToCart()">Add to Cart</button>
           <button class="btn ghost" (click)="addToWishlist()">♡ Wishlist</button>
         </div>
       </div>
